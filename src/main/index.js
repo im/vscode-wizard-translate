@@ -1,7 +1,7 @@
 const humanizeString = require('humanize-string')
 const { google, youdao, baidu } = require('translation-api')
-const getLink = require('../utils/link')
 const { translateLink } = require('../utils/github')
+const getLink = require('../utils/link')
 
 function Translate(documents, connection) {
     this._connection = connection
@@ -36,18 +36,17 @@ Translate.prototype.getText = async function (textDocumentPosition) {
         let targetLanguageComment = null
         let contents = []
         try {
-            console.log('translateServes: ', translateServes);
             targetLanguageComment = await this.servers(translateServes).translate(humanize)
         } catch (e) {
             console.log(e)
         }
         if (targetLanguageComment) {
             contents.push(`${translateLink(translateServes, targetLanguageComment.link)}`)
-            contents.push(`${block.comment} => ${targetLanguageComment.result}`)
+            contents.push(`${block.comment} => `)
+            contents.push(`${targetLanguageComment.result}`)
             contents.push(' ')
         } else {
-            contents.push(`${translateLink(translateServes, getLink(translateServes, humanize))}`)
-            contents.push('翻译失败啦！~~~')
+            contents.push(`翻译失败啦！~~~ ${translateLink(translateServes, getLink(translateServes, humanize))}`)
         }
         return {
             contents: contents,

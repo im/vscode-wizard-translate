@@ -1,5 +1,4 @@
 const { env, Position, window, workspace, commands } = require('vscode');
-
 const { LanguageClient, TransportKind } = require('vscode-languageclient')
 const path = require('path');
 const { translateServerSelect } = require('./configuration');
@@ -61,17 +60,17 @@ async function activate(context) {
         return null
     });
 
-    // 注册更改目标语言命令
     const disposable = context.subscriptions.push(commands.registerCommand('wizardTranslate.select', translateServerSelect));
-    // let disposable = commands.registerCommand('extension.helloWorld', function () {
-    // 	window.showInformationMessage('Hello World!');
-    // });
-
     context.subscriptions.push(disposable);
 }
 exports.activate = activate;
 
-function deactivate() { }
+function deactivate() {
+    if (!client) {
+        return undefined
+    }
+    return client.stop()
+ }
 
 module.exports = {
     activate,

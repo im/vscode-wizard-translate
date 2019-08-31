@@ -1,4 +1,3 @@
-
 module.exports = function (type, text) {
     let link = ''
     switch (type) {

@@ -1,15 +1,7 @@
-
-
-
 const { TextDocuments, createConnection, ProposedFeatures, DidChangeConfigurationNotification } = require('vscode-languageserver')
-
 const Translate = require('../main')
-
 let connection = createConnection(ProposedFeatures.all)
-
 let documents = new TextDocuments()
-
-
 let translate = null 
 let hasConfigurationCapability = false
 let hasWorkspaceFolderCapability = false
@@ -58,7 +50,5 @@ connection.onHover(async (textDocumentPosition) => {
 	return hover
 })
 
-
 documents.listen(connection)
-
 connection.listen()
