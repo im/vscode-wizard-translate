@@ -1,77 +1,77 @@
 {
-	"name": "wizard-translate",
-	"displayName": "wizard-translate",
-	"description": "vscode translate",
-	"version": "1.0.9",
-	"publisher": "tangxiaomi",
-	"icon": "images/icon.png",
-	"author": {
-		"name": "糖小米",
-		"email": "tangxiaomiemail@gmail.com"
-	},
-	"engines": {
-		"vscode": "^1.2.0"
-	},
-	"categories": [
-		"Other"
-	],
-	"activationEvents": [
-		"*"
-	],
-	"main": "./src/extension.js",
-	"repository": "https://github.com/im/vscode-wizard-translate.git",
-	"contributes": {
-		"commands": [
-			{
-				"command": "wizardTranslate.select",
-				"title": "选择翻译服务",
-				"category": "wizard Translate"
-			}
-		],
-		"configuration": {
-			"type": "object",
-			"title": "tangxiaomi translate",
-			"properties": {
-				"wizardTranslate.proxy": {
-					"type": "string",
-					"default": null,
-					"markdownDescription": "添加代理"
-				},
-				"wizardTranslate.translateServes": {
-					"type": "string",
-					"enum": [
-						"google",
-						"youdao",
-						"baidu"
-					],
-					"enumDescriptions": [
-						"谷歌",
-						"有道",
-						"百度"
-					],
-					"description": "翻译服务"
-				}
-			}
-		}
-	},
-	"scripts": {
-		"test": "node ./test/runTest.js"
-	},
-	"devDependencies": {
-		"@types/glob": "^7.1.1",
-		"@types/mocha": "^5.2.6",
-		"@types/node": "^10.12.21",
-		"@types/vscode": "^1.2.0",
-		"eslint": "^5.13.0",
-		"glob": "^7.1.4",
-		"mocha": "^6.1.4",
-		"typescript": "^3.3.1",
-		"vscode-test": "^1.0.2"
-	},
-	"dependencies": {
-		"humanize-string": "^2.1.0",
-		"translation-api": "^1.0.3",
-		"vscode-languageclient": "^5.2.1",
-		"vscode-languageserver": "^5.2.1"
-	}
+    "name": "wizard-translate",
+    "displayName": "wizard-translate",
+    "description": "vscode translate",
+    "version": "1.0.9",
+    "publisher": "tangxiaomi",
+    "icon": "images/icon.png",
+    "author": {
+        "name": "糖小米",
+        "email": "tangxiaomiemail@gmail.com"
+    },
+    "engines": {
+        "vscode": "^1.2.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "*"
+    ],
+    "main": "./src/extension.js",
+    "repository": "https://github.com/im/vscode-wizard-translate.git",
+    "contributes": {
+        "commands": [
+            {
+                "command": "wizardTranslate.select",
+                "title": "选择翻译服务",
+                "category": "wizard Translate"
+            }
+        ],
+        "configuration": {
+            "type": "object",
+            "title": "tangxiaomi translate",
+            "properties": {
+                "wizardTranslate.proxy": {
+                    "type": "string",
+                    "default": null,
+                    "markdownDescription": "添加代理"
+                },
+                "wizardTranslate.translateServes": {
+                    "type": "string",
+                    "enum": [
+                        "google",
+                        "youdao",
+                        "baidu"
+                    ],
+                    "enumDescriptions": [
+                        "谷歌",
+                        "有道",
+                        "百度"
+                    ],
+                    "description": "翻译服务"
+                }
+            }
+        }
+    },
+    "scripts": {
+        "test": "node ./test/runTest.js"
+    },
+    "devDependencies": {
+        "@types/glob": "^7.1.1",
+        "@types/mocha": "^5.2.6",
+        "@types/node": "^10.12.21",
+        "@types/vscode": "^1.2.0",
+        "eslint": "^5.13.0",
+        "glob": "^7.1.4",
+        "mocha": "^6.1.4",
+        "typescript": "^3.3.1",
+        "vscode-test": "^1.0.2"
+    },
+    "dependencies": {
+        "humanize-string": "^2.1.0",
+        "translation-api": "^1.0.3",
+        "vscode-languageclient": "^5.2.1",
+        "vscode-languageserver": "^5.2.1"
+    }
 }
