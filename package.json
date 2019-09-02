@@ -70,7 +70,7 @@
     },
     "dependencies": {
         "humanize-string": "^2.1.0",
-        "translation-api": "^1.0.3",
+        "translation-api": "^1.0.5",
         "vscode-languageclient": "^5.2.1",
         "vscode-languageserver": "^5.2.1"
     }

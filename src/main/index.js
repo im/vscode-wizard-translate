@@ -42,7 +42,7 @@ Translate.prototype.getText = async function (textDocumentPosition) {
         }
         if (targetLanguageComment) {
             contents.push(`${translateLink(translateServes, targetLanguageComment.link)}`)
-            contents.push(`${block.comment} => `)
+            contents.push(`${humanize} => `)
             contents.push(`${targetLanguageComment.result}`)
             contents.push(' ')
         } else {
