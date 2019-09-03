@@ -50,5 +50,9 @@ connection.onHover(async (textDocumentPosition) => {
 	return hover
 })
 
+connection.onRequest('translate', (text, format) => {
+    return translate.replaceText(text, format)
+});
+
 documents.listen(connection)
 connection.listen()
