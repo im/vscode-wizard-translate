@@ -1,7 +1,7 @@
 const { env, Position, window, workspace, commands } = require('vscode');
 const { LanguageClient, TransportKind } = require('vscode-languageclient')
-const path = require('path');
 const { translateServerSelect } = require('./configuration');
+const path = require('path');
 let client = null
 
 async function activate(context) {
@@ -18,6 +18,7 @@ async function activate(context) {
             options: debugOptions
         }
     }
+
     let userLanguage = env.language // 获取本地语言
 
     let clientOptions = {
@@ -41,45 +42,11 @@ async function activate(context) {
 
     await client.onReady();
 
-    client.onRequest('selectionContains', (textDocumentPosition) => {
-        let editor = window.activeTextEditor;
-        //有活动editor，并且打开文档与请求文档一致时处理请求
-        if (editor && editor.document.uri.toString() === textDocumentPosition.textDocument.uri) {
-            //类型转换
-            let position = new Position(textDocumentPosition.position.line, textDocumentPosition.position.character);
-            let selection = editor.selections.find((selection) => {
-                return !selection.isEmpty && selection.contains(position);
-            });
-            if (selection) {
-                return {
-                    range: selection,
-                    comment: editor.document.getText(selection)
-                };
-            }
-        }
-        return null
-    });
-    client.onRequest('hoverContains', (textDocumentPosition) => {
-        let editor = window.activeTextEditor;
-        //有活动editor，并且打开文档与请求文档一致时处理请求
-        if (editor && editor.document.uri.toString() === textDocumentPosition.textDocument.uri) {
-            //类型转换
-            let position = new Position(textDocumentPosition.position.line, textDocumentPosition.position.character);
-            let selection = editor.selections.find((selection) => {
-                console.log('selection: ', selection.contains(position));
-                return !selection.isEmpty && selection.contains(position);
-            });
-            console.log('selection: ', selection);
-            // console.log('editor', editor.document.getText(selection));
-            // if (selection) {
-            //     return {
-            //         range: selection,
-            //         comment: editor.document.getText(selection)
-            //     };
-            // }
-        }
-        return null
-    });
+    // 选中内容
+    client.onRequest('selectionContains', selectionContains);
+
+    // 鼠标移入位置
+    client.onRequest('hoverContains', hoverContains);
 
     // 选中翻译
     context.subscriptions.push(commands.registerCommand('wizardTranslate.select', translateServerSelect));
@@ -88,11 +55,10 @@ async function activate(context) {
     context.subscriptions.push(commands.registerCommand('wizardTranslate.selectReplace', translateSelectReplace));
 
     // 选中替换驼峰格式
-    context.subscriptions.push(commands.registerCommand('wizardTranslate.selectReplaceFormat', () => { translateSelectReplace('hump') }));
-
+    context.subscriptions.push(commands.registerCommand('wizardTranslate.selectReplaceFormat', () => { translateSelectReplace('hump') }))
 
 }
-exports.activate = activate;
+
 
 function deactivate() {
     if (!client) {
@@ -101,9 +67,46 @@ function deactivate() {
     return client.stop()
 }
 
-module.exports = {
-    activate,
-    deactivate
+
+function selectionContains(textDocumentPosition) {
+    let editor = window.activeTextEditor;
+    //有活动editor，并且打开文档与请求文档一致时处理请求
+    if (editor && editor.document.uri.toString() === textDocumentPosition.textDocument.uri) {
+        //类型转换
+        let position = new Position(textDocumentPosition.position.line, textDocumentPosition.position.character);
+        let selection = editor.selections.find((selection) => {
+            return !selection.isEmpty && selection.contains(position);
+        });
+        if (selection) {
+            return {
+                range: selection,
+                comment: editor.document.getText(selection)
+            };
+        }
+    }
+    return null
+}
+
+function hoverContains(textDocumentPosition) {
+    let editor = window.activeTextEditor;
+    //有活动editor，并且打开文档与请求文档一致时处理请求
+    if (editor && editor.document.uri.toString() === textDocumentPosition.textDocument.uri) {
+        //类型转换
+        let position = new Position(textDocumentPosition.position.line, textDocumentPosition.position.character);
+        let selection = editor.selections.find((selection) => {
+            console.log('selection: ', selection.contains(position));
+            return !selection.isEmpty && selection.contains(position);
+        });
+        console.log('selection: ', selection);
+        // console.log('editor', editor.document.getText(selection));
+        // if (selection) {
+        //     return {
+        //         range: selection,
+        //         comment: editor.document.getText(selection)
+        //     };
+        // }
+    }
+    return null
 }
 
 async function translateSelection(text, selection, format) {
@@ -112,15 +115,15 @@ async function translateSelection(text, selection, format) {
 }
 
 // 替换翻译内容
-async function translateSelectReplace( format) {
+async function translateSelectReplace(format) {
     let editor = window.activeTextEditor;
     if (!(editor && editor.document &&
         editor.selections.some(selection => !selection.isEmpty))) {
         return client.outputChannel.append(`No selection！\n`);
     }
 
-    let selections =  editor.selections.filter(selection => !selection.isEmpty)
-    let translates =  selections.map(selection => {
+    let selections = editor.selections.filter(selection => !selection.isEmpty)
+    let translates = selections.map(selection => {
         let text = editor.document.getText(selection);
         return translateSelection(text, selection, format);
     });
@@ -148,4 +151,12 @@ async function translateSelectReplace( format) {
         decoration.dispose();
         client.outputChannel.append(e);
     }
+}
+
+
+exports.activate = activate;
+
+module.exports = {
+    activate,
+    deactivate
 }
