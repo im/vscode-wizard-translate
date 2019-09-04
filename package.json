@@ -2,7 +2,7 @@
     "name": "wizard-translate",
     "displayName": "wizard-translate",
     "description": "vscode translate",
-    "version": "1.0.14",
+    "version": "1.0.13",
     "publisher": "tangxiaomi",
     "icon": "images/icon.png",
     "author": {
@@ -12,6 +12,14 @@
     "engines": {
         "vscode": "^1.2.0"
     },
+    "keywords": [
+        "youdao",
+        "baidu",
+        "google",
+        "hover",
+        "google translate",
+        "翻译"
+    ],
     "categories": [
         "Other"
     ],
@@ -25,17 +33,17 @@
             {
                 "command": "wizardTranslate.select",
                 "title": "选择翻译服务",
-                "category": "wizard Translate"
+                "category": "wizard Translate select"
             },
             {
                 "command": "wizardTranslate.selectReplace",
                 "title": "替换翻译内容",
-                "category": "wizard Translate"
+                "category": "wizard Translate replace"
             },
             {
                 "command": "wizardTranslate.selectReplaceFormat",
                 "title": "替换成驼峰格式",
-                "category": "wizard Translate"
+                "category": "wizard Translate replace hump"
             }
         ],
         "keybindings": [
