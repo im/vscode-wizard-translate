@@ -81,12 +81,14 @@ async function activate(context) {
         return null
     });
 
+    // 选中翻译
     context.subscriptions.push(commands.registerCommand('wizardTranslate.select', translateServerSelect));
 
-
+    // 选中替换
     context.subscriptions.push(commands.registerCommand('wizardTranslate.selectReplace', translateSelectReplace));
 
-    context.subscriptions.push(commands.registerCommand('wizardTranslate.selectReplaceFormat', translateSelectReplaceFormat));
+    // 选中替换驼峰格式
+    context.subscriptions.push(commands.registerCommand('wizardTranslate.selectReplaceFormat', () => { translateSelectReplace('hump') }));
 
 
 }
@@ -109,20 +111,20 @@ async function translateSelection(text, selection, format) {
     return { translation, selection };
 }
 
-
-async function translateSelectReplace(format) {
+// 替换翻译内容
+async function translateSelectReplace( format) {
     let editor = window.activeTextEditor;
     if (!(editor && editor.document &&
         editor.selections.some(selection => !selection.isEmpty))) {
         return client.outputChannel.append(`No selection！\n`);
     }
 
-    let translates =  editor.selections.filter(selection => !selection.isEmpty)
-    let trans =  translates.map(selection => {
+    let selections =  editor.selections.filter(selection => !selection.isEmpty)
+    let translates =  selections.map(selection => {
         let text = editor.document.getText(selection);
         return translateSelection(text, selection, format);
     });
-    
+    // 选中高亮
     let decoration = window.createTextEditorDecorationType({
         color: '#FF2D00',
         backgroundColor: "transparent"
@@ -132,46 +134,7 @@ async function translateSelectReplace(format) {
 
     let beginTime = Date.now();
     try {
-        let results = await Promise.all(trans);
-        //最少提示1秒钟
-        setTimeout(() => {
-            decoration.dispose();
-        }, 1000 - (Date.now() - beginTime));
-        editor.edit(builder => {
-            results.forEach(item => {
-                item.translation && builder.replace(item.selection, item.translation);
-            });
-        });
-    } catch (e) {
-        decoration.dispose();
-        client.outputChannel.append(e);
-    }
-}
-
-async function translateSelectReplaceFormat() {
-    let format = 'hump'
-    let editor = window.activeTextEditor;
-    if (!(editor && editor.document &&
-        editor.selections.some(selection => !selection.isEmpty))) {
-        return client.outputChannel.append(`No selection！\n`);
-    }
-
-    let translates =  editor.selections.filter(selection => !selection.isEmpty)
-    let trans =  translates.map(selection => {
-        let text = editor.document.getText(selection);
-        return translateSelection(text, selection, format);
-    });
-    
-    let decoration = window.createTextEditorDecorationType({
-        color: '#FF2D00',
-        backgroundColor: "transparent"
-    });
-
-    editor.setDecorations(decoration, editor.selections);
-
-    let beginTime = Date.now();
-    try {
-        let results = await Promise.all(trans);
+        let results = await Promise.all(translates);
         //最少提示1秒钟
         setTimeout(() => {
             decoration.dispose();

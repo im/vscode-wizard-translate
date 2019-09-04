@@ -36,7 +36,6 @@ Translate.prototype.replaceText = async function (text, format) {
     if (format === 'hump' && res.from === 'zh-CN') {
         result = changeCase.camelCase(result)
     }
-    console.log('result: ', result);
     return result
 }
 
@@ -75,43 +74,41 @@ Translate.prototype.getSelectionContainPosition = async function (textDocumentPo
     return block
 }
 
-Translate.prototype.getHoverContainPosition = async function (textDocumentPosition) {
-    let textDocument = this._documents.get(textDocumentPosition.textDocument.uri);
-    if (!textDocument) return null;
-    const reg = /\\|\/|\?|\？|\*|\"|\“|\”|\'|\‘|\’|\<|\>|\{|\}|\[|\]|\【|\】|\：|\:|\、|\^|\$|\!|\~|\`|\|/g;
-    const model = textDocument.getText().split('\n')
-    const line = textDocumentPosition.position.line
-    const lineText = model[line].split('').replate
-    console.log('lineText: ', lineText.length);
-    const character = textDocumentPosition.position.character
-    console.log('character: ', character);
+// Translate.prototype.getHoverContainPosition = async function (textDocumentPosition) {
+//     let textDocument = this._documents.get(textDocumentPosition.textDocument.uri);
+//     if (!textDocument) return null;
+//     const reg = /\\|\/|\?|\？|\*|\"|\“|\”|\'|\‘|\’|\<|\>|\{|\}|\[|\]|\【|\】|\：|\:|\、|\^|\$|\!|\~|\`|\|/g;
+//     const model = textDocument.getText().split('\n')
+//     const line = textDocumentPosition.position.line
+//     const lineText = model[line].split('').replate
+//     console.log('lineText: ', lineText.length);
+//     const character = textDocumentPosition.position.character
+//     console.log('character: ', character);
 
-    let start = 0
-    let end = character
-    let startIndex = true
+//     let start = 0
+//     let end = character
+//     let startIndex = true
 
-    // while (startIndex) {
-    //     if (!reg.test(lineText[start--])){
-    //         startIndex = false
-    //     }
-    // }
-    // console.log(start)
-    for (let i = character; i < lineText.length; i++) {
-        end = i
-        if (!reg.test(lineText[i])) break;
-    }
-    console.log('end: ', end);
-    // // for (let i = character + 1; i < lineText.length; i--) {
-    // //     start = i
-    // //     if (!reg.test(lineText[i])) break;
-    // // }
+//     // while (startIndex) {
+//     //     if (!reg.test(lineText[start--])){
+//     //         startIndex = false
+//     //     }
+//     // }
+//     // console.log(start)
+//     for (let i = character; i < lineText.length; i++) {
+//         end = i
+//         if (!reg.test(lineText[i])) break;
+//     }
+//     console.log('end: ', end);
+//     // // for (let i = character + 1; i < lineText.length; i--) {
+//     // //     start = i
+//     // //     if (!reg.test(lineText[i])) break;
+//     // // }
 
-    console.log('line: ', model[line].substring(start, end));
+//     console.log('line: ', model[line].substring(start, end));
 
-    // let block = await this._connection.sendRequest('hoverContains', textDocumentPosition)
-    // return block
-}
-
-
+//     // let block = await this._connection.sendRequest('hoverContains', textDocumentPosition)
+//     // return block
+// }
 
 module.exports = Translate
