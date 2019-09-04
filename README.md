@@ -12,11 +12,11 @@
 
 * 滑词翻译
 
-![滑词翻译](./images/demo/滑词翻译.gif)
+![滑词翻译](./images/demo/show1.gif)
 
 * 翻译替换
 
-![翻译替换](./images/demo/翻译替换.gif)
+![翻译替换](./images/demo/show2.gif)
 
 ## 使用
 
@@ -38,7 +38,7 @@
 
 `ctrl + alt + p` （mac: `cmd + shift + p`） 输入 wizardTranslate 可以切换翻译服务商 google, 有道, 百度
 
-![设置](./images/demo/设置.jpg)
+![设置](./images/demo/setting.jpg)
 
 ## 待开发
 
